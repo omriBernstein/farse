@@ -1,0 +1,24 @@
+{
+  "name": "farse",
+  "version": "0.0.1",
+  "description": "ᵗⁱⁿʸ ʲᵃᵛᵃˢᶜʳⁱᵖᵗ ᶠᵘⁿᶜᵗⁱᵒⁿ ᵖᵃʳˢᵉʳ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omriBernstein/farse.git"
+  },
+  "keywords": [
+    "function",
+    "parse",
+    "es6"
+  ],
+  "author": "Omri Bernstein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omriBernstein/farse/issues"
+  },
+  "homepage": "https://github.com/omriBernstein/farse#readme"
+}
