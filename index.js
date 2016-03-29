@@ -54,7 +54,7 @@ function parseParamStr (str) {
       curParam += ch;
     }
   });
-  params.push(curParam);
+  if (curParam) params.push(curParam);
   return params;
 }
 

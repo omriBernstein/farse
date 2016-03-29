@@ -10,7 +10,15 @@ describe('Farse', function () {
 
     describe('of various forms', function () {
 
-      it('including empty functions');
+      it('including empty functions', function () {
+        const result = farse(function () {});
+        expect(result).to.eql({
+          name: '',
+          params: [],
+          body: '',
+          kind: 'StandardFunction'
+        });
+      });
 
       it('including functions with a name');
 
