@@ -2,13 +2,25 @@
 
 const expect = require('chai').expect;
 
+const farse = require('.');
+
 describe('Farse', function () {
 
   describe('parses ordinary functions', function () {
 
-    it('without a body');
+    describe('of various forms', function () {
 
-    it('with a body');
+      it('including empty functions');
+
+      it('including functions with a name');
+
+      it('including functions with params');
+
+      it('including functions with a body');
+
+      it('including functions with name, params, and body');
+
+    });
 
     describe('with a possibly confounding body', function () {
 
@@ -30,17 +42,29 @@ describe('Farse', function () {
 
   describe('parses arrow functions', function () {
 
-    it('without a body');
+    describe('of various forms', function () {
 
-    it('with a body');
+      it('including empty functions');
 
-    it('with parens and brackets');
+      it('including functions with params');
 
-    it('with parens but no brackets');
+      it('including functions with a body');
 
-    it('without parens but with brackets');
+      it('including functions with params and body');
 
-    it('with neither parens nor brackets');
+    });
+
+    describe('with syntax permutations', function () {
+
+      it('including parens and brackets');
+
+      it('including parens but no brackets');
+
+      it('including brackets but no parens');
+
+      it('including neither parens nor brackets');
+
+    });
 
     describe('with a possibly confounding body', function () {
 
@@ -62,9 +86,17 @@ describe('Farse', function () {
 
   describe('parses generator functions', function () {
 
-    it('without a body');
+    describe('of various forms', function () {
 
-    it('with a body');
+      it('including empty generator functions');
+
+      it('including generator functions with params');
+
+      it('including generator functions with a body');
+
+      it('including generator functions with params and body');
+
+    });
 
     describe('with a possibly confounding body', function () {
 
