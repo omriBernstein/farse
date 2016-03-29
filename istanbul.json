@@ -1,0 +1,8 @@
+{
+  "instrumentation": {
+    "excludes": ["test.js"]
+  },
+  "reporting": {
+    "print": "detail"
+  }
+}
