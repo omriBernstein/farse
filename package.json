@@ -4,7 +4,7 @@
   "description": "ᵗⁱⁿʸ ʲᵃᵛᵃˢᶜʳⁱᵖᵗ ᶠᵘⁿᶜᵗⁱᵒⁿ ᵖᵃʳˢᵉʳ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --reporter spec test.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/omriBernstein/farse/issues"
   },
-  "homepage": "https://github.com/omriBernstein/farse#readme"
+  "homepage": "https://github.com/omriBernstein/farse#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
 }
