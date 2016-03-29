@@ -243,33 +243,99 @@ describe('Farse', function () {
 
     describe('of various forms', function () {
 
-      it('including empty generator functions');
+      it('including empty generator functions', function () {
+        const parsed = farse(function* () {});
+        expect(parsed).to.eql({
+          name: '',
+          params: [],
+          body: '',
+          kind: 'GeneratorFunction'
+        });
+      });
 
-      it('including generator functions with params');
+      it('including generator functions with a name', function () {
+        const parsed = farse(function* foobar () {});
+        expect(parsed).to.eql({
+          name: 'foobar',
+          params: [],
+          body: '',
+          kind: 'GeneratorFunction'
+        });
+      })
 
-      it('including generator functions with a body');
+      it('including generator functions with params', function () {
+        const parsed = farse(function* (a,x,b,y) {});
+        expect(parsed).to.eql({
+          name: '',
+          params: ['a', 'x', 'b', 'y'],
+          body: '',
+          kind: 'GeneratorFunction'
+        });
+      });
 
-      it('including generator functions with params and body');
+      it('including generator functions with a body', function () {
+        const parsed = farse(function* () {console.log('floof');return 'bar';});
+        expect(parsed).to.eql({
+          name: '',
+          params: [],
+          body: "console.log('floof');return 'bar';",
+          kind: 'GeneratorFunction'
+        });
+      });
+
+      it('including generator functions with name, params, and body', function () {
+        const parsed = farse(function* something (alpha,bravo,charlie) {return alpha+bravo+charlie;});
+        expect(parsed).to.eql({
+          name: 'something',
+          params: ['alpha', 'bravo', 'charlie'],
+          body: 'return alpha+bravo+charlie;',
+          kind: 'GeneratorFunction'
+        });
+      });
 
     });
 
     describe('with a possibly confounding body', function () {
 
-      it('including code with brackets');
+      it('including code with brackets', function () {
+        const parsed = farse(function* () {var x = {}; if (true) {x=5;} return x;});
+        expect(parsed.body).to.equal('var x = {}; if (true) {x=5;} return x;');
+      });
 
-      it('including strings with closing brackets');
+      it('including strings with closing brackets', function () {
+        const parsed = farse(function* () {console.log('}');return;});
+        expect(parsed.body).to.equal("console.log('}');return;");
+      });
 
-      it('including comments with closing brackets');
+      it('including comments with closing brackets', function () {
+        const inlineParsed = farse(function* () {// }
+          return;});
+        expect(simplifyNewlines(inlineParsed.body)).to.equal('// }\nreturn;');
+        const multilineParsed = farse(function* () {/*}*/return;});
+        expect(multilineParsed.body).to.equal('/*}*/return;');
+      });
 
     });
 
     describe('with a possibly confounding parameter list', function () {
 
-      it('including code with parens');
+      it('including code with parens', function () {
+        const parsed = farse(function* (foo,bar=Math.random(),baz) {});
+        expect(parsed.params).to.eql(['foo', 'bar=Math.random()', 'baz']);
+      });
 
-      it('including strings with closing parens');
+      it('including strings with closing parens', function () {
+        const parsed = farse(function* (a,b=")",c) {});
+        expect(parsed.params).to.eql(['a', 'b=")"', 'c']);
+      });
 
-      it('including comments with closing parens');
+      it('including comments with closing parens', function () {
+        const inlineParsed = farse(function* (// )
+          x,y,z) {});
+        expect(inlineParsed.params.map(simplifyNewlines)).to.eql(['// )\nx', 'y', 'z']);
+        const multilineParsed = farse(function* (x,y/*)*/,z) {});
+        expect(multilineParsed.params.map(simplifyNewlines)).to.eql(['x', 'y/*)*/', 'z']);
+      });
 
     });
 
