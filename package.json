@@ -4,7 +4,7 @@
   "description": "ᵗⁱⁿʸ ʲᵃᵛᵃˢᶜʳⁱᵖᵗ ᶠᵘⁿᶜᵗⁱᵒⁿ ᵖᵃʳˢᵉʳ",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec test.js"
+    "test": "mocha --harmony_default_parameters --reporter spec test.js"
   },
   "repository": {
     "type": "git",
