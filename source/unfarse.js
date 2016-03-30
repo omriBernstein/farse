@@ -8,7 +8,7 @@ function isGenerator (parsed) {
   return parsed.kind === 'GeneratorFunction';
 }
 
-const GeneratorFunction = (function*(){}).constructor;
+const GeneratorFunction = (/* istanbul ignore next */ function*(){}).constructor;
 
 function inexactUnfarse (parsed) {
   const constructor = isGenerator(parsed) ? GeneratorFunction : Function;
