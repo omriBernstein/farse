@@ -1,5 +1,7 @@
 'use strict';
 
+const chai = require('chai');
+chai.use(require('chai-spies'));
 const expect = require('chai').expect;
 
 const farse = require('.');
@@ -335,6 +337,165 @@ describe('Farse', function () {
         expect(inlineParsed.params.map(simplifyNewlines)).to.eql(['// )\nx', 'y', 'z']);
         const multilineParsed = farse(function* (x,y/*)*/,z) {});
         expect(multilineParsed.params.map(simplifyNewlines)).to.eql(['x', 'y/*)*/', 'z']);
+      });
+
+    });
+
+  });
+
+});
+
+describe('Unfarse (`farse.inverse`)', function () {
+
+  describe('`.inexact`', function () {
+
+    describe('turns a `farse`d result back into a working copy of the original function without using `eval`', function () {
+
+      beforeEach(function () {
+        chai.spy.on(global, 'eval');
+      });
+
+      it('for ordinary functions', function () {
+        const fn = farse.inverse.inexact({
+          name: '',
+          params: ['a', 'b'],
+          body: 'return a+b;',
+          kind: 'StandardFunction'
+        });
+        expect(fn).to.be.a.function;
+        expect(fn(10,20)).to.equal(30);
+        expect(eval).not.to.have.been.called();
+      });
+
+      it('for arrow functions', function () {
+        const fn = farse.inverse.inexact({
+          name: '',
+          params: ['a', 'b'],
+          body: 'return a+b;',
+          kind: 'ArrowFunction'
+        });
+        expect(fn).to.be.a.function;
+        expect(fn(10,20)).to.equal(30);
+        expect(eval).not.to.have.been.called();
+      });
+
+      it('for generator functions', function () {
+        const fn = farse.inverse.inexact({
+          name: '',
+          params: ['a', 'b'],
+          body: 'yield a+b; return a-b;',
+          kind: 'GeneratorFunction'
+        });
+        expect(fn).to.be.a.function;
+        const iter = fn(10,20);
+        expect(iter.next).to.be.a.function;
+        expect(iter.next()).to.eql({
+          done: false,
+          value: 30
+        });
+        expect(iter.next()).to.eql({
+          done: true,
+          value: -10
+        });
+        expect(eval).not.to.have.been.called();
+      });
+
+    });
+
+  });
+
+  describe('`.exact`', function () {
+
+    describe('turns a `farse`d result back into a more exact clone of the original function', function () {
+
+      describe('for ordinary functions', function () {
+
+        let fn;
+        beforeEach(function () {
+          fn = farse.inverse.exact({
+            name: 'foobar',
+            params: ['a', 'b'],
+            body: 'return a+b;',
+            kind: 'StandardFunction'
+          });
+        });
+
+        it('copies the behavior', function () {
+          expect(fn).to.be.a.function;
+          expect(fn(10,20)).to.equal(30);
+        });
+
+        it('copies length', function () {
+          expect(fn.length).to.equal(2);
+        });
+
+        it('copies name', function () {
+          expect(fn.name).to.equal('foobar');
+        });
+
+      });
+
+      describe('for arrow functions', function () {
+
+        let fn;
+        beforeEach(function () {
+          fn = farse.inverse.exact({
+            name: '',
+            params: ['a', 'b'],
+            body: 'return a+b;',
+            kind: 'ArrowFunction'
+          });
+        });
+
+        it('copies the behavior', function () {
+          expect(fn).to.be.a.function;
+          expect(fn(10,20)).to.equal(30);
+        });
+
+        it('copies length', function () {
+          expect(fn.length).to.equal(2);
+        });
+
+        it('copies the fact that it\'s an arrow function', function () {
+          expect(fn.toString().startsWith('function')).to.equal(false);
+        });
+
+      });
+
+      describe('for generator functions', function () {
+
+        let fn;
+        beforeEach(function () {
+          fn = farse.inverse.exact({
+            name: 'foobar',
+            params: ['a', 'b'],
+            body: 'yield a+b; return a-b;',
+            kind: 'GeneratorFunction'
+          });
+        });
+
+        it('copies the behavior', function () {
+          expect(fn).to.be.a.function;
+          const iter = fn(10,20);
+          expect(iter.next).to.be.a.function;
+          expect(iter.next()).to.eql({
+            done: false,
+            value: 30
+          });
+          expect(iter.next()).to.eql({
+            done: true,
+            value: -10
+          });
+        });
+
+        it('copies length', function () {
+          expect(fn.length).to.equal(2);
+        });
+
+        it('copies name', function () {
+          expect(fn.name).to.equal('foobar');
+        });
+
       });
 
     });
