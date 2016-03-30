@@ -6,7 +6,10 @@
   "scripts": {
     "test": "mocha --harmony_default_parameters --reporter spec test.js",
     "coverage:local": "node --harmony_default_parameters node_modules/istanbul/lib/cli.js cover --config=istanbul.json _mocha -- --reporter min test.js && rm -rf ./coverage",
-    "coverage:publish": "node --harmony_default_parameters node_modules/istanbul/lib/cli.js cover --config=istanbul.json _mocha -- --reporter min test.js && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "coverage:publish": "node --harmony_default_parameters node_modules/istanbul/lib/cli.js cover --config=istanbul.json _mocha -- --reporter min test.js && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "preversion": "bash ./scripts/version-ready.sh",
+    "postversion": "git push origin master --tags && npm publish ./",
+    "postpublish": "npm run coverage:publish"
   },
   "repository": {
     "type": "git",
