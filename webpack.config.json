@@ -1,0 +1,19 @@
+{
+  "entry": "./src/farse.js",
+  "devtool": "source-map",
+  "module": {
+    "loaders": [{
+      "loader": "babel",
+      "query": {
+        "presets": "es2015"
+      }
+    }]
+  },
+  "output": {
+    "filename": "farse.min.js",
+    "path": "./dist",
+    "libraryTarget": "umd",
+    "library": "farse",
+    "umdNamedDefine": true
+  }
+}
