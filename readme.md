@@ -4,6 +4,10 @@
 
 Use case—you've got an [arrow](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)/[generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)/normal function and you want: its name, an array of its declared arguments, its body, and/or what kind of function it is.
 
+# Why?
+
+There are wonderful Javascript parsers out there (see for example [acorn](https://github.com/ternjs/acorn) or [esprima](https://github.com/jquery/esprima)). They are generalists. This function parser is meant to be [universal](https://medium.com/@mjackson/universal-javascript-4761051b7ae9#.h2zujh9og), small in scope, and small in size.
+
 # Getting started
 
 If using it from node, go ahead and:
@@ -34,7 +38,35 @@ npm install farse
 
 ...and now `farse` would be a global variable available to any subsequent client scripts.
 
-# Examples
+# Methods
+
+This library's got three functions:
+
+* `farse`: for parsing a function.
+* `farse.inverse.inexact`: for taking the result of parsing a function and turning it back into a function.
+* `farse.inverse.exact`: similar, but with important differences (see below).
+
+## `farse`
+
+### About
+
+*Input...*
+```js
+<Function>
+```
+*Output...*
+```js
+{
+  name: <String>,
+  params: [<String>],
+  body: <String>,
+  kind: <'StandardFunction','ArrowFunction','GeneratorFunction'>
+}
+```
+
+Takes any function and returns a parsed object with the name, parameters, body, and "kind" of that function. The kind designates whether the original function is a standard function, an arrow function, or a generator function.
+
+### Examples
 
 An empty function:
 
@@ -96,6 +128,41 @@ farse(function* doThings (bar) {
 }
 */
 ```
+
+## `farse.inverse.inexact`
+
+*Input...*
+```js
+{
+  params: [<String>],
+  body: <String>,
+  kind: <'StandardFunction','ArrowFunction','GeneratorFunction'>
+}
+```
+*Output...*
+```js
+<Function>
+```
+
+Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and spits back a function that is a behavioral copy of the original. That is, it takes the same inputs and returns the same outputs. However, the resulting function will not share the original's name, and if the parsed `.kind` is `'ArrowFunction'` the result will nevertheless come back as an standard/ordinary function. This method uses the `Function` constructor to do its work, so is somewhat safer than its `.exact` alternative which uses `eval` (see below).
+
+##`farse.inverse.exact`
+
+*Input...*
+```js
+{
+  name: <String>,
+  params: [<String>],
+  body: <String>,
+  kind: <'StandardFunction','ArrowFunction','GeneratorFunction'>
+}
+```
+*Output...*
+```js
+<Function>
+```
+
+Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and returns a function that is not only a behavioral copy of the original, but also shares its `.name`. Furthermore if the original was an arrow function, the clone will also be an arrow function. **NOTE: Employ caution with this method because it utilizes `eval`.**
 
 # Similar libraries
 
