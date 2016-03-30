@@ -42,9 +42,11 @@ npm install farse
 
 This library's got three functions:
 
-* `farse`: for parsing a function.
-* `farse.inverse.inexact`: for taking the result of parsing a function and turning it back into a function.
-* `farse.inverse.exact`: similar, but with important differences (see below).
+* [`farse`](#farse): for parsing a function.
+* [`farse.inverse.inexact`](#farseinverseinexact): for taking the result of parsing a function and turning it back into a function.
+* [`farse.inverse.exact`](#farseinverseexact): similar, but with important differences (see below).
+
+In general, I recommend you default to using `farse.inverse.inexact` over `farse.inverse.exact`. The `.inexact` version, though less precise, is slightly safer because it uses the `Function` constructor instead of `eval`. See the documentation below for more details.
 
 ## `farse`
 
@@ -131,6 +133,8 @@ farse(function* doThings (bar) {
 
 ## `farse.inverse.inexact`
 
+**Note: Employ caution with this method because it utilizes the `Function` constructor.**
+
 *Input...*
 ```js
 {
@@ -144,9 +148,11 @@ farse(function* doThings (bar) {
 <Function>
 ```
 
-Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and spits back a function that is a behavioral copy of the original. That is, it takes the same inputs and returns the same outputs. However, the resulting function will not share the original's name, and if the parsed `.kind` is `'ArrowFunction'` the result will nevertheless come back as an standard/ordinary function. This method uses the `Function` constructor to do its work, so is somewhat safer than its `.exact` alternative which uses `eval` (see below).
+Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and spits back a function that is a behavioral copy of the original. That is, it takes the same inputs and returns the same outputs. However, the resulting function will not share the original's name, and if the parsed `.kind` is `'ArrowFunction'` the result will nevertheless come back as an standard/ordinary function. This method uses the `Function` constructor to do its work, so is somewhat safer than its `.exact` alternative which uses `eval`.
 
 ##`farse.inverse.exact`
+
+**Note: Employ caution with this method because it utilizes `eval`.**
 
 *Input...*
 ```js
@@ -162,7 +168,7 @@ Takes an object representing a parsed function (e.g. the result of `farse`ing a 
 <Function>
 ```
 
-Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and returns a function that is not only a behavioral copy of the original, but also shares its `.name`. Furthermore if the original was an arrow function, the clone will also be an arrow function. **NOTE: Employ caution with this method because it utilizes `eval`.**
+Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and returns a function that is not only a behavioral copy of the original, but also shares its `.name`. Furthermore if the original was an arrow function, the clone will also be an arrow function.
 
 # Similar libraries
 
