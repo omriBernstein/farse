@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --harmony_default_parameters --reporter spec test.js",
-    "coverage:local": "node --harmony_default_parameters node_modules/istanbul/lib/cli.js cover --config=istanbul.json _mocha -- --reporter min test.js && rm -rf ./coverage"
+    "coverage:local": "node --harmony_default_parameters node_modules/istanbul/lib/cli.js cover --config=istanbul.json _mocha -- --reporter min test.js && rm -rf ./coverage",
+    "coverage:publish": "node --harmony_default_parameters node_modules/istanbul/lib/cli.js cover --config=istanbul.json _mocha -- --reporter min test.js && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/omriBernstein/farse#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5"
   }

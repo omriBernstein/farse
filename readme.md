@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/omriBernstein/farse/badge.svg?branch=master)](https://coveralls.io/github/omriBernstein/farse?branch=master)
+
 # About
 
 Use case—you've got an [arrow](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)/[generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*)/normal function and you want: its name, an array of its declared arguments, its body, and/or what kind of function it is.
@@ -85,3 +87,19 @@ farse(function* doThings (bar) {
 
 * [parse-function](https://www.npmjs.com/package/parse-function)
 * [function-regex](https://www.npmjs.com/package/function-regex)
+
+# Contributing
+
+Pull requests / issues / comments / hate mail welcome!
+
+If you'd like to run the tests, download this repo, open a terminal, navigate to it, then run:
+
+```bash
+npm install
+```
+
+...and once that's done:
+
+```bash
+npm test
+```
