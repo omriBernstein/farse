@@ -18,7 +18,21 @@ npm install farse
 const farse = require('farse');
 ```
 
-**Note: Browser-compatible version on its way**
+When using from the browser, download it, then in your html include a `<script>` pointing to the correct file. The script will make `farse` a global variable.
+
+For example you might run:
+
+```bash
+npm install farse
+``` 
+
+...and then you might put this in your html (assuming the `node_modules` directory is statically served to the client):
+
+```html
+<script src="/farse/dist/farse.min.js"></script>
+```
+
+...and now `farse` would be a global variable available to any subsequent client scripts.
 
 # Examples
 
