@@ -109,4 +109,6 @@ function farse (fn) {
   return source.startsWith('function') ? parseNormal(source) : parseArrow(source);
 }
 
+farse.inverse = require('./unfarse');
+
 module.exports = farse;
