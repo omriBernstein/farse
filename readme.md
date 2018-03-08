@@ -150,7 +150,7 @@ farse(function* doThings (bar) {
 
 Takes an object representing a parsed function (e.g. the result of `farse`ing a function) and spits back a function that is a behavioral copy of the original. That is, it takes the same inputs and returns the same outputs. However, the resulting function will not share the original's name, and if the parsed `.kind` is `'ArrowFunction'` the result will nevertheless come back as an standard/ordinary function. This method uses the `Function` constructor to do its work, so is somewhat safer than its `.exact` alternative which uses `eval`.
 
-##`farse.inverse.exact`
+## `farse.inverse.exact`
 
 **Note: Employ caution with this method because it utilizes `eval`.**
 
